@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CIP Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Header: Logo + Live Time -->
+    <header class="site-header">
+        <div class="logo">CIP</div>
+        <div class="live-time" id="liveTime">--:--:--</div>
+    </header>
+
+    <!-- Stats Section (empty for now) -->
+    <section class="stats-section">
+        <!-- Stats widgets will go here -->
+    </section>
+
+    <!-- Filters Section -->
+    <section class="filters-section">
+        <div class="card">
+            <div class="filters-content">
+                <span class="filter-label">Filters</span>
+                <!-- Filter inputs will go here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Grid: Left → Complaints List | Right → Officers + AI Panel -->
+    <main class="main-grid">
+        <section class="complaints-panel">
+            <div class="card">
+                <h2 class="panel-title">Complaints</h2>
+                <div class="complaints-list" id="complaintsList">
+                    <!-- Complaint items will go here -->
+                </div>
+            </div>
+        </section>
+
+        <section class="officers-panel">
+            <div class="card">
+                <h2 class="panel-title">Officers</h2>
+                <div class="officers-list" id="officersList">
+                    <!-- Officer items will go here -->
+                </div>
+            </div>
+
+            <div class="card ai-card">
+                <h2 class="panel-title">AI Panel</h2>
+                <div class="ai-content">
+                    <!-- AI insights will go here -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Bottom Grid: Complaint Form | Map Section | Alerts Panel -->
+    <section class="bottom-grid">
+        <div class="card complaint-form-card">
+            <h2 class="panel-title">New Complaint</h2>
+            <form class="complaint-form">
+                <div class="form-group">
+                    <label for="citizenName">Name</label>
+                    <input type="text" id="citizenName" placeholder="Enter name" />
+                </div>
+                <div class="form-group">
+                    <label for="complaintCategory">Category</label>
+                    <select id="complaintCategory">
+                        <option value="">Select</option>
+                        <option value="Theft">Theft</option>
+                        <option value="Assault">Assault</option>
+                        <option value="Fraud">Fraud</option>
+                        <option value="Noise">Noise</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="locationInput">Location</label>
+                    <input type="text" id="locationInput" placeholder="Enter location" />
+                </div>
+                <div class="form-group">
+                    <label for="descriptionInput">Description</label>
+                    <textarea id="descriptionInput" rows="3" placeholder="Enter description"></textarea>
+                </div>
+                <button type="button" id="submitComplaintBtn">Submit Complaint</button>
+            </form>
+        </div>
+
+        <div class="card map-card">
+            <h2 class="panel-title">Map</h2>
+            <div class="map-container">
+                <!-- Map will go here -->
+            </div>
+        </div>
+
+        <div class="card alerts-card">
+            <h2 class="panel-title">Alerts</h2>
+            <div class="alerts-list">
+                <!-- Alert items will go here -->
+            </div>
+        </div>
+    </section>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
