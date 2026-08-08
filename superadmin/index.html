@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Admin Module | SevaSetu</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: #f0f4f8;
+            color: #1e293b;
+            display: flex;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .content {
+            max-width: 1100px;
+        }
+
+        .stat-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card-dash {
+            background: #fff;
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+        }
+
+        .stat-card-dash .num {
+            font-size: 1.8rem;
+            font-weight: 800;
+        }
+
+        .stat-card-dash .label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar-dark">
+        <div class="sidebar-logo">
+            <div class="logo-icon">🚀</div>
+            <h4>Seva<span>Setu</span></h4>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="index.html" class="nav-link active"><i class="bi bi-speedometer2"></i> <span>Dashboard</span></a>
+            <a href="states.html" class="nav-link"><i class="bi bi-flag"></i> <span>States</span></a>
+            <a href="cities.html" class="nav-link"><i class="bi bi-buildings"></i> <span>Cities</span></a>
+            <a href="departments.html" class="nav-link"><i class="bi bi-building"></i> <span>Departments</span></a>
+            <a href="officers.html" class="nav-link"><i class="bi bi-person-badge"></i> <span>Officers</span></a>
+            <a href="ai-settings.html" class="nav-link"><i class="bi bi-robot"></i> <span>AI Settings</span></a>
+            <a href="database.html" class="nav-link"><i class="bi bi-database"></i> <span>Database</span></a>
+            <a href="security.html" class="nav-link"><i class="bi bi-shield-lock"></i> <span>Security</span></a>
+            <div class="sidebar-title"
+                style="color:#64748b;font-size:.62rem;padding:14px 16px 4px;text-transform:uppercase;font-weight:700;">
+                System</div>
+            <a href="settings.html" class="nav-link"><i class="bi bi-gear"></i> <span>Settings</span></a>
+            <a href="system-health.html" class="nav-link"><i class="bi bi-heart-pulse"></i> <span>System
+                    Health</span></a>
+            <a href="backups.html" class="nav-link"><i class="bi bi-cloud-arrow-up"></i> <span>Backups</span></a>
+            <a href="logs.html" class="nav-link"><i class="bi bi-journal-text"></i> <span>Logs</span></a>
+        </nav>
+        <div class="sidebar-footer"><small>👑 Super Admin</small></div>
+    </aside>
+    <main class="content">
+        <div id="toastContainer"></div>
+        <h2>👑 Super Admin</h2>
+        <p class="text-muted">Highest Authority | Demo</p>
+        <div class="stat-cards">
+            <div class="stat-card-dash">
+                <div class="num">5</div>
+                <div class="label">States</div>
+            </div>
+            <div class="stat-card-dash">
+                <div class="num">28</div>
+                <div class="label">Cities</div>
+            </div>
+            <div class="stat-card-dash">
+                <div class="num">Online</div>
+                <div class="label">Health</div>
+            </div>
+        </div>
+        <div class="card">
+            <h3>⚙️ System</h3>
+            <div class="d-flex gap-2 mt-3">
+                <button class="btn btn-outline-primary btn-sm" onclick="showToast('AI Settings')"><i
+                        class="bi bi-robot"></i> AI</button>
+                <button class="btn btn-outline-primary btn-sm" onclick="showToast('DB Healthy')"><i
+                        class="bi bi-database"></i> DB</button>
+                <button class="btn btn-outline-primary btn-sm" onclick="showToast('Security Audit')"><i
+                        class="bi bi-shield-lock"></i> Security</button>
+            </div>
+        </div>
+    </main>
+    <script src="../assets/js/app.js"></script>
+</body>
+
+</html>
+</content>

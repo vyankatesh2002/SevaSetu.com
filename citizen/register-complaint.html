@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report a Civic Issue | SevaSetu</title>
+    <meta name="description" content="Tell us what happened. SevaSetu helps organize your grievance for review.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../assets/css/sevasetu.css">
+    <style>
+        body {
+            display: flex;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .module-side {
+            width: 240px;
+            background: var(--color-gray-900);
+            color: #fff;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+        }
+
+        .module-side .side-logo {
+            padding: 18px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, .12);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .module-side .side-logo .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--color-primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .module-side nav {
+            flex: 1;
+            padding: 12px 10px;
+        }
+
+        .module-side nav a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 2px;
+            transition: all .2s;
+        }
+
+        .module-side nav a:hover,
+        .module-side nav a.active {
+            background: var(--color-primary);
+            color: #fff;
+        }
+
+        .module-side .side-foot {
+            padding: 14px 16px;
+            border-top: 1px solid rgba(255, 255, 255, .12);
+            font-size: 12px;
+            color: #9ca3af;
+        }
+
+        .civic-wrap {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .sevasetu-form {
+            max-width: 760px;
+        }
+
+        @media (max-width:768px) {
+            body {
+                flex-direction: column;
+            }
+
+            .module-side {
+                width: 100%;
+                height: auto;
+                position: static;
+            }
+
+            .module-side nav {
+                display: flex;
+                overflow-x: auto;
+            }
+
+            .module-side nav a {
+                white-space: nowrap;
+            }
+        }
+    </style>
+</head>
+
+<body class="module-layout">
+    <aside class="module-side">
+        <div class="side-logo">
+            <div class="logo-icon">👤</div>
+            <div><strong>SevaSetu</strong><br><small style="color:#9ca3af;">Citizen Module</small></div>
+        </div>
+        <nav>
+            <a href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a>
+            <a href="register-complaint.html" class="active"><i class="bi bi-plus-circle"></i> Register Complaint</a>
+            <a href="track.html"><i class="bi bi-search"></i> Track Complaint</a>
+            <a href="history.html"><i class="bi bi-clock-history"></i> History</a>
+            <a href="complaint-details.html"><i class="bi bi-file-text"></i> Complaint Details</a>
+            <a href="emergency.html"><i class="bi bi-exclamation-triangle"></i> Emergency</a>
+            <a href="profile.html"><i class="bi bi-person-circle"></i> Profile</a>
+            <a href="feedback.html"><i class="bi bi-star"></i> Feedback</a>
+        </nav>
+        <div class="side-foot">Citizen Portal</div>
+    </aside>
+
+    <div class="civic-wrap">
+        <div id="sevasetu-root"></div>
+        <main id="main-content" class="sevasetu-section">
+            <div id="sr-announcer" aria-live="polite" style="position:absolute;left:-9999px;"></div>
+            <div class="sevasetu-hero" style="border-radius:var(--radius-lg);margin-bottom:24px;text-align:left;">
+                <div class="hero-label">Report a Civic Issue</div>
+                <h1 style="font-size:clamp(22px,3vw,32px);">📝 Report a Civic Issue</h1>
+                <p class="hero-sub">Tell us what happened. SevaSetu helps organize your grievance for review.</p>
+            </div>
+
+            <div class="sevasetu-form" id="formCard">
+                <div class="sevasetu-form">
+                    <div class="mb-3">
+                        <label class="sevasetu-label" for="subject">Complaint Title</label>
+                        <input class="sevasetu-input" id="subject" type="text"
+                            placeholder="e.g. Water leakage in main street">
+                    </div>
+                    <div class="mb-3">
+                        <label class="sevasetu-label" for="description">Description</label>
+                        <textarea class="sevasetu-input" id="description" rows="4"
+                            placeholder="Provide detailed description..."></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="sevasetu-label" for="category">Category</label>
+                        <select class="sevasetu-input" id="category">
+                            <option value="Water Supply">💧 Water Supply</option>
+                            <option value="Electricity">⚡ Electricity</option>
+                            <option value="Roads & PWD">🛣️ Roads & Infrastructure</option>
+                            <option value="Sanitation">🗑️ Garbage & Sanitation</option>
+                            <option value="Street Lights">💡 Street Lights</option>
+                            <option value="Other">📋 Other</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="sevasetu-label" for="location">Location</label>
+                        <input class="sevasetu-input" id="location" type="text" placeholder="Enter address or landmark">
+                    </div>
+                    <div class="mb-3">
+                        <button class="sevasetu-button btn-primary" id="submitBtn">📨 Submit Complaint</button>
+                    </div>
+                    <div id="formFeedback" style="display:none;" aria-live="polite"></div>
+                </div>
+            </div>
+
+            <div class="sevasetu-card" id="postCard" style="display:none;max-width:760px;text-align:center;">
+                <i class="bi bi-check-circle-fill" style="font-size:3rem;color:var(--color-green);"></i>
+                <h2 class="mt-3">Complaint Submitted Successfully</h2>
+                <p>Your complaint ID:</p>
+                <h3 id="complaintIdDisplay" style="color:var(--color-primary);">SVS-2026-000001</h3>
+                <div class="sevasetu-badge b-blue" id="aiBadge">AI Classification: Water Supply</div>
+                <div style="margin-top:20px;">
+                    <a class="sevasetu-button btn-primary" href="track.html">🔍 Track Complaint →</a>
+                    <a class="sevasetu-button btn-outline" href="dashboard.html">Back to Dashboard</a>
+                </div>
+            </div>
+        </main>
+        <div id="sevasetu-footer"></div>
+    </div>
+
+    <script src="../assets/js/store.js"></script>
+    <script src="../assets/js/sevasetu.js"></script>
+    <script>
+        (function () {
+            var submitBtn = document.getElementById('submitBtn');
+            submitBtn.addEventListener('click', function () {
+                var subject = document.getElementById('subject').value.trim();
+                var description = document.getElementById('description').value.trim();
+                var category = document.getElementById('category').value;
+                var location = document.getElementById('location').value.trim();
+                if (!subject || !description || !location) { alert('Please fill in title, description and location.'); return; }
+                var fb = document.getElementById('formFeedback');
+                fb.style.display = 'block';
+                fb.innerHTML = '<div class="sevasetu-badge b-blue">🤖 AI analysing your complaint...</div>';
+                submitBtn.disabled = true;
+                setTimeout(function () {
+                    var session = JSON.parse(localStorage.getItem('svs_session') || 'null');
+                    var comp = null;
+                    if (window.SVSCOMPLAINTS) {
+                        comp = SVSCOMPLAINTS.createComplaint({
+                            citizenId: (session && session.citizenId) || 'CIT-001',
+                            title: subject,
+                            description: description,
+                            category: category,
+                            department: category,
+                            location: location,
+                            priority: 'Medium'
+                        });
+                    } else {
+                        var id = window.SVS ? SVS.generateComplaintId() : 'SVS-2026-000010';
+                        comp = { complaintId: id, title: subject, category: category };
+                    }
+                    document.getElementById('formCard').style.display = 'none';
+                    var post = document.getElementById('postCard');
+                    post.style.display = 'block';
+                    document.getElementById('complaintIdDisplay').textContent = comp.complaintId;
+                    document.getElementById('aiBadge').textContent = 'AI Classification: ' + category;
+                    submitBtn.disabled = false;
+                }, 1800);
+            });
+        })();
+    </script>
+</body>
+
+</html>

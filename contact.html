@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | SevaSetu</title>
+    <meta name="description" content="Contact the SevaSetu research team.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="assets/css/sevasetu.css">
+</head>
+
+<body>
+    <div id="sr-announcer" aria-live="polite" style="position:absolute;left:-9999px;"></div>
+    <a href="#main-content" class="skip-link">Skip to Main Content</a>
+    <div id="sevasetu-root"></div>
+
+    <section class="sevasetu-hero">
+        <div class="hero-label">Contact</div>
+        <h1>Contact SevaSetu</h1>
+        <p class="hero-sub">Reach out to the research team with questions, feedback or collaboration ideas.</p>
+    </section>
+
+    <main id="main-content" class="sevasetu-section">
+        <div class="sevasetu-container" style="max-width:720px;">
+            <div class="sevasetu-form">
+                <div id="formMsg" style="display:none;" class="sevasetu-badge b-green" aria-live="polite"></div>
+                <div class="mb-3">
+                    <label class="sevasetu-label" for="cName">Name</label>
+                    <input class="sevasetu-input" id="cName" type="text" placeholder="Your name">
+                </div>
+                <div class="mb-3">
+                    <label class="sevasetu-label" for="cEmail">Email</label>
+                    <input class="sevasetu-input" id="cEmail" type="email" placeholder="you@example.com">
+                </div>
+                <div class="mb-3">
+                    <label class="sevasetu-label" for="cSubject">Subject</label>
+                    <input class="sevasetu-input" id="cSubject" type="text" placeholder="Subject">
+                </div>
+                <div class="mb-3">
+                    <label class="sevasetu-label" for="cMessage">Message</label>
+                    <textarea class="sevasetu-input" id="cMessage" rows="5" placeholder="Your message"></textarea>
+                </div>
+                <button class="sevasetu-button btn-primary" id="sendBtn">📧 Send Message</button>
+            </div>
+        </div>
+    </main>
+
+    <div id="sevasetu-footer"></div>
+    <script src="assets/js/sevasetu.js"></script>
+    <script>
+        document.getElementById('sendBtn').addEventListener('click', function () {
+            var name = document.getElementById('cName').value.trim();
+            var email = document.getElementById('cEmail').value.trim();
+            var subject = document.getElementById('cSubject').value.trim();
+            var msg = document.getElementById('cMessage').value.trim();
+            if (!name || !email || !subject || !msg) { alert('Please fill in all fields.'); return; }
+            var m = document.getElementById('formMsg');
+            m.style.display = 'block';
+            m.textContent = '✅ Thank you, ' + name + '. Your message has been received (prototype).';
+            document.getElementById('cName').value = '';
+            document.getElementById('cEmail').value = '';
+            document.getElementById('cSubject').value = '';
+            document.getElementById('cMessage').value = '';
+        });
+    </script>
+</body>
+
+</html>

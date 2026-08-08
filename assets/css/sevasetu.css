@@ -1,0 +1,308 @@
+/* ============================================================
+   SEVASETU — GLOBAL MASTER DESIGN SYSTEM
+   ============================================================
+   SINGLE SOURCE OF TRUTH for the entire website.
+   This file captures the EXACT visual language of the SevaSetu
+   Home page (CIP.html) and reuses it on EVERY page.
+
+   Home page reference principles:
+   - White / light background + black / dark text
+   - Subtle brand accents (blue #0F4C81, saffron #FF9933, green #138808)
+   - Clean professional Government-tech look
+   - Same header, footer, buttons, cards, badges, forms, responsive
+
+   Global reusable classes (from the brief):
+   sevasetu-header, sevasetu-footer, sevasetu-container,
+   sevasetu-section, sevasetu-card, sevasetu-button,
+   sevasetu-badge, sevasetu-hero, sevasetu-input
+   ============================================================ */
+
+:root {
+    /* SevaSetu brand palette (from Home page) */
+    --color-primary: #0F4C81;
+    --color-primary-dark: #0a3560;
+    --color-primary-light: #1a6db5;
+    --color-saffron: #FF9933;
+    --color-saffron-light: #fff0e0;
+    --color-green: #138808;
+    --color-green-light: #e8f5e0;
+    --color-red: #dc2626;
+    --color-red-light: #fee2e2;
+
+    /* Neutrals */
+    --color-white: #ffffff;
+    --color-bg: #f8f9fa;
+    --color-gray-50: #f9fafb;
+    --color-gray-100: #f3f4f6;
+    --color-gray-200: #e5e7eb;
+    --color-gray-300: #d1d5db;
+    --color-gray-400: #9ca3af;
+    --color-gray-500: #6b7280;
+    --color-gray-600: #4b5563;
+    --color-gray-700: #374151;
+    --color-gray-800: #1f2937;
+    --color-gray-900: #111827;
+    --color-text: #1f2937;
+    --color-text-secondary: #4b5563;
+    --color-border: #e5e7eb;
+    --color-card: #ffffff;
+
+    /* Effects */
+    --shadow-sm: 0 1px 2px rgba(0,0,0,.05);
+    --shadow-md: 0 4px 6px rgba(0,0,0,.07),0 2px 4px rgba(0,0,0,.06);
+    --shadow-lg: 0 10px 25px rgba(0,0,0,.10),0 4px 10px rgba(0,0,0,.06);
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+    --transition: .25s cubic-bezier(.4,0,.2,1);
+    --font-size-base: 16px;
+    --max-width: 1280px;
+    --header-height: 72px;
+    --utility-height: 38px;
+}
+
+/* ---- Dark mode (mirrors Home) ---- */
+[data-theme="dark"] {
+    --color-bg:#1a1d23; --color-white:#1e2130; --color-card:#252836; --color-card-hover:#2a2d3a;
+    --color-text:#e5e7eb; --color-text-secondary:#cbd5e1; --color-border:#374151;
+    --color-gray-50:#1f2232; --color-gray-100:#252836; --color-gray-200:#374151;
+    --shadow-sm:0 1px 2px rgba(0,0,0,.3); --shadow-md:0 4px 6px rgba(0,0,0,.4); --shadow-lg:0 10px 25px rgba(0,0,0,.5);
+    --color-saffron-light:#3d2a10; --color-green-light:#1a2a10;
+}
+[data-theme="dark"] body, [data-theme="dark"] .sevasetu-page { background-color:#1a1d23; }
+[data-theme="dark"] .sevasetu-header { background:#1e2130; border-bottom-color:#2a2d3a; }
+[data-theme="dark"] .sevasetu-footer { background:#15171d; border-top-color:#2a2d3a; }
+[data-theme="dark"] input, [data-theme="dark"] textarea, [data-theme="dark"] select { background:#1e2130; color:#e5e7eb; border-color:#374151; }
+
+/* ---- High contrast ---- */
+[data-contrast="high"] { --color-text:#000; --color-text-secondary:#1a1a1a; --color-border:#000; --color-bg:#fff; --color-card:#fff; }
+[data-contrast="high"] * { border-width:2px !important; }
+[data-contrast="high"] a, [data-contrast="high"] button { text-decoration:underline; }
+
+/* ---- Font size ---- */
+[data-font="small"] body, [data-font="small"] .sevasetu-page { font-size:14px; }
+[data-font="large"] body, [data-font="large"] .sevasetu-page { font-size:20px; }
+
+/* ============================================================
+   BASE — matches Home
+   ============================================================ */
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+    font-family:'Segoe UI','Inter',system-ui,-apple-system,sans-serif;
+    font-size:var(--font-size-base); line-height:1.6; color:var(--color-text);
+    background-color:var(--color-bg); transition:background-color .3s,color .3s;
+    -webkit-font-smoothing:antialiased;
+}
+a { color:var(--color-primary); }
+img { max-width:100%; }
+
+/* Skip link */
+.skip-link { position:absolute; top:-100px; left:16px; background:var(--color-primary); color:#fff; padding:10px 20px; border-radius:var(--radius-sm); z-index:10000; font-weight:600; text-decoration:none; transition:top .2s; }
+.skip-link:focus { top:8px; }
+
+/* ============================================================
+   SEVASETU UTILITY BAR (top strip, same as Home)
+   ============================================================ */
+.sevasetu-utility {
+    background:var(--color-gray-900); color:#e5e7eb; font-size:13px; padding:0 20px;
+    min-height:var(--utility-height); display:flex; align-items:center; justify-content:space-between;
+    flex-wrap:wrap; gap:8px; border-bottom:1px solid #374151; position:sticky; top:0; z-index:1000;
+}
+.sevasetu-utility .su-left { display:flex; align-items:center; gap:12px; flex-wrap:wrap; font-size:12px; }
+.sevasetu-utility .su-left .flag { font-size:16px; }
+.sevasetu-utility .su-left .tag { background:#374151; padding:3px 10px; border-radius:20px; font-size:10px; letter-spacing:.3px; white-space:nowrap; }
+.sevasetu-utility .su-right { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.sevasetu-utility .su-right button, .sevasetu-utility .su-right select { background:transparent; border:1px solid #4b5563; color:#e5e7eb; padding:3px 8px; border-radius:4px; font-size:11px; cursor:pointer; white-space:nowrap; }
+.sevasetu-utility .su-right button:hover { background:#374151; }
+.sevasetu-utility .su-right select { background:#1f2937; }
+
+/* ============================================================
+   SEVASETU HEADER (same as Home)
+   ============================================================ */
+.sevasetu-header {
+    background:var(--color-white); border-bottom:1px solid var(--color-border); padding:0 24px;
+    min-height:var(--header-height); display:flex; align-items:center; justify-content:space-between;
+    gap:16px; position:sticky; top:var(--utility-height); z-index:999; box-shadow:var(--shadow-sm);
+    transition:background .3s,border-color .3s; flex-wrap:wrap;
+}
+.sevasetu-brand { display:flex; align-items:center; gap:10px; text-decoration:none; flex-shrink:0; }
+.sevasetu-brand .logo-icon { width:42px; height:42px; background:var(--color-primary); color:#fff; border-radius:var(--radius-sm); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:20px; }
+.sevasetu-brand .logo-text { font-weight:700; font-size:20px; color:var(--color-primary); line-height:1.1; }
+.sevasetu-brand .logo-tag { font-size:11px; color:var(--color-text-secondary); font-weight:400; }
+.sevasetu-nav { display:flex; gap:4px; align-items:center; flex-wrap:wrap; }
+.sevasetu-nav a { text-decoration:none; color:var(--color-text-secondary); font-weight:500; font-size:14px; padding:8px 12px; border-radius:var(--radius-sm); transition:all .2s; white-space:nowrap; }
+.sevasetu-nav a:hover, .sevasetu-nav a:focus { background:var(--color-gray-100); color:var(--color-primary); }
+.sevasetu-actions { display:flex; gap:8px; align-items:center; flex-shrink:0; flex-wrap:wrap; }
+
+/* ============================================================
+   SEVASETU BUTTONS (same as Home)
+   ============================================================ */
+.sevasetu-button { display:inline-flex; align-items:center; gap:6px; padding:10px 18px; border-radius:var(--radius-sm); font-weight:600; font-size:14px; cursor:pointer; border:none; text-decoration:none; transition:all var(--transition); white-space:nowrap; letter-spacing:.2px; }
+.sevasetu-button:hover { transform:translateY(-1px); }
+.sevasetu-button.btn-primary, .sevasetu-button.btn-solid { background:var(--color-primary); color:#fff; }
+.sevasetu-button.btn-primary:hover, .sevasetu-button.btn-solid:hover { background:var(--color-primary-dark); box-shadow:var(--shadow-md); }
+.sevasetu-button.btn-outline { background:transparent; border:2px solid var(--color-primary); color:var(--color-primary); }
+.sevasetu-button.btn-outline:hover { background:var(--color-primary); color:#fff; }
+.sevasetu-button.btn-saffron { background:var(--color-saffron); color:#fff; }
+.sevasetu-button.btn-saffron:hover { background:#e68a20; }
+.sevasetu-button.btn-ghost { background:var(--color-gray-100); color:var(--color-text); }
+.sevasetu-button.btn-ghost:hover { background:var(--color-gray-200); }
+.sevasetu-button.btn-sm { padding:7px 14px; font-size:13px; }
+.sevasetu-button.btn-lg { padding:14px 28px; font-size:16px; border-radius:var(--radius-md); }
+
+/* ============================================================
+   SEVASETU HERO (page hero, same style as Home)
+   ============================================================ */
+.sevasetu-hero {
+    background:linear-gradient(160deg,#f0f5fb 0%,#e8f0f8 30%,#fdf6f0 70%,var(--color-bg) 100%);
+    padding:48px 24px 56px; text-align:center; transition:background .3s;
+}
+.sevasetu-hero .hero-label { text-transform:uppercase; letter-spacing:1.5px; font-size:12px; font-weight:700; color:var(--color-primary); margin-bottom:8px; }
+.sevasetu-hero h1 { font-size:clamp(28px,4vw,44px); font-weight:800; color:var(--color-text); line-height:1.2; margin-bottom:12px; letter-spacing:-.5px; }
+.sevasetu-hero .hero-sub { font-size:var(--font-size-base); color:var(--color-text-secondary); max-width:640px; margin:0 auto 20px; }
+.sevasetu-hero .hero-actions { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+
+/* ============================================================
+   CONTAINER / SECTION (same as Home)
+   ============================================================ */
+.sevasetu-container { max-width:var(--max-width); margin:0 auto; padding:0 24px; }
+.sevasetu-section { padding:56px 24px; max-width:var(--max-width); margin:0 auto; }
+.sevasetu-section .section-label { text-transform:uppercase; letter-spacing:1.5px; font-size:12px; font-weight:700; color:var(--color-primary); margin-bottom:6px; }
+.sevasetu-section .section-title { font-size:clamp(24px,3vw,34px); font-weight:800; color:var(--color-text); margin-bottom:8px; letter-spacing:-.3px; }
+.sevasetu-section .section-desc { color:var(--color-text-secondary); margin-bottom:32px; max-width:600px; }
+
+/* ============================================================
+   SEVASETU CARD (same as Home)
+   ============================================================ */
+.sevasetu-card { background:var(--color-card); border:1px solid var(--color-border); border-radius:var(--radius-lg); padding:22px; box-shadow:var(--shadow-sm); transition:all var(--transition); }
+.sevasetu-card:hover { box-shadow:var(--shadow-lg); transform:translateY(-2px); border-color:var(--color-primary-light); }
+.sevasetu-card h2 { font-size:22px; font-weight:800; color:var(--color-text); margin-bottom:6px; }
+.sevasetu-card h3 { font-size:17px; font-weight:700; color:var(--color-text); margin-bottom:8px; }
+.sevasetu-card p { color:var(--color-text-secondary); font-size:14px; }
+
+/* Grid helpers */
+.sevasetu-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:16px; }
+.sevasetu-grid-4 { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:14px; }
+
+/* ============================================================
+   SEVASETU BADGE (same as Home status colors)
+   ============================================================ */
+.sevasetu-badge { display:inline-block; padding:4px 12px; border-radius:20px; font-size:11px; font-weight:700; }
+.sevasetu-badge.b-blue, .sevasetu-badge.bg-info { background:var(--color-primary-light); color:#fff; }
+.sevasetu-badge.b-green, .sevasetu-badge.bg-success { background:var(--color-green); color:#fff; }
+.sevasetu-badge.b-saffron, .sevasetu-badge.b-amber, .sevasetu-badge.bg-warning { background:var(--color-saffron); color:#fff; }
+.sevasetu-badge.b-red, .sevasetu-badge.bg-danger { background:var(--color-red); color:#fff; }
+.sevasetu-badge.b-gray, .sevasetu-badge.bg-secondary { background:var(--color-gray-200); color:var(--color-gray-600); }
+
+/* ============================================================
+   SEVASETU FORMS / INPUT (same as Home inputs)
+   ============================================================ */
+.sevasetu-form { background:var(--color-card); border:1px solid var(--color-border); border-radius:var(--radius-lg); padding:28px; box-shadow:var(--shadow-sm); }
+.sevasetu-input { width:100%; padding:11px 14px; border:2px solid var(--color-gray-200); border-radius:var(--radius-sm); font-size:15px; color:var(--color-text); background:var(--color-card); transition:border-color .2s,box-shadow .2s; }
+.sevasetu-input:focus { border-color:var(--color-primary-light); outline:none; box-shadow:0 0 0 4px rgba(26,109,181,.12); }
+.sevasetu-label { display:block; font-weight:600; font-size:13px; color:var(--color-text); margin-bottom:6px; }
+
+/* ============================================================
+   SEVASETU TABLE (dashboard/records)
+   ============================================================ */
+.sevasetu-table-wrap { background:var(--color-card); border:1px solid var(--color-border); border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-sm); }
+.sevasetu-table-wrap table { width:100%; border-collapse:collapse; }
+.sevasetu-table-wrap th { text-align:left; padding:12px 16px; background:var(--color-gray-100); color:var(--color-text); font-weight:700; font-size:13px; border-bottom:1px solid var(--color-border); }
+.sevasetu-table-wrap td { padding:12px 16px; border-bottom:1px solid var(--color-border); font-size:14px; color:var(--color-text); }
+.sevasetu-table-wrap tr:last-child td { border-bottom:none; }
+.sevasetu-table-wrap tr:hover td { background:var(--color-gray-50); }
+
+/* Stat cards */
+.sevasetu-stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:16px; margin-bottom:20px; }
+.sevasetu-stat { background:var(--color-card); border:1px solid var(--color-border); border-radius:var(--radius-lg); padding:20px; text-align:center; box-shadow:var(--shadow-sm); }
+.sevasetu-stat .num { font-size:1.9rem; font-weight:800; color:var(--color-primary); }
+.sevasetu-stat .label { font-size:12px; color:var(--color-text-secondary); text-transform:uppercase; font-weight:600; }
+
+/* Empty / loading states */
+.sevasetu-empty { text-align:center; padding:48px 20px; color:var(--color-text-secondary); }
+
+/* ============================================================
+   SEVASETU FOOTER (same as Home)
+   ============================================================ */
+.sevasetu-footer { background:var(--color-gray-900); color:#e5e7eb; padding:48px 24px 22px; border-top:4px solid var(--color-saffron); transition:background .3s; }
+.sevasetu-footer-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:28px; max-width:var(--max-width); margin:0 auto 28px; }
+.sevasetu-footer-col h4 { color:#fff; margin-bottom:12px; font-size:15px; }
+.sevasetu-footer-col a { display:block; color:#cbd5e1; text-decoration:none; font-size:13px; padding:4px 0; transition:color .2s; }
+.sevasetu-footer-col a:hover { color:#fff; text-decoration:underline; }
+.sevasetu-footer-col .fbrand { font-size:18px; font-weight:700; color:#fff; }
+.sevasetu-footer-col .ftag { font-size:12px; color:#9ca3af; margin-top:4px; }
+.sevasetu-footer-bottom { text-align:center; font-size:12px; color:#9ca3af; border-top:1px solid #374151; padding-top:18px; max-width:var(--max-width); margin:0 auto; }
+
+/* ============================================================
+   SEVASETU MODULE LAYOUT (with .module-side sidebar)
+   ------------------------------------------------------------
+   Used on role dashboards so the compact header + content align
+   cleanly beside the fixed sidebar (no misalignment / gaps).
+   ============================================================ */
+body.module-layout { display:flex; background:var(--color-bg); }
+body.module-layout .module-side {
+    width:240px; background:var(--color-gray-900); color:#fff; flex-shrink:0;
+    display:flex; flex-direction:column; position:sticky; top:0; height:100vh;
+    overflow-y:auto; z-index:100; background:var(--color-gray-900);
+}
+body.module-layout .module-side nav a { color:#cbd5e1; }
+body.module-layout .civic-wrap { flex:1; min-width:0; display:flex; flex-direction:column; }
+
+/* Compact module header: full-width bar aligned to sidebar top */
+.sevasetu-module-header {
+    display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
+    background:var(--color-card); border-bottom:2px solid var(--color-primary);
+    padding:10px 20px; min-height:60px; width:100%;
+}
+.sevasetu-module-header .sevasetu-brand { gap:10px; }
+.sevasetu-module-header .logo-icon { width:36px; height:36px; font-size:17px; }
+.sevasetu-module-header .logo-text { font-size:18px; }
+.sevasetu-module-header .logo-tag { font-size:11px; }
+.sevasetu-module-meta { display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+.sevasetu-module-meta .mh-controls { display:flex; align-items:center; gap:6px; flex-wrap:wrap; border:1px solid var(--color-border); padding:4px 8px; border-radius:var(--radius-sm); background:var(--color-gray-50); }
+.sevasetu-module-meta .mh-controls button, .sevasetu-module-meta .mh-controls select { background:transparent; border:1px solid var(--color-border); color:var(--color-text); padding:3px 8px; border-radius:4px; font-size:11px; cursor:pointer; }
+.sevasetu-module-meta .mh-controls button:hover { background:var(--color-gray-200); }
+.sevasetu-module-meta .mh-user { display:inline-flex; align-items:center; gap:6px; font-size:14px; font-weight:600; color:var(--color-text); }
+.sevasetu-module-meta .mh-user small { color:var(--color-text-secondary); font-weight:500; }
+
+/* Module content: align left (flush with sidebar) instead of centered */
+body.module-layout .sevasetu-section {
+    max-width:100%; padding:24px 24px 40px; margin:0; text-align:left;
+}
+body.module-layout .sevasetu-hero {
+    margin:0 0 20px; text-align:left; background:linear-gradient(160deg,#f0f5fb 0%,#e8f0f8 50%,var(--color-bg) 100%);
+    border-radius:var(--radius-lg); padding:28px 28px;
+}
+body.module-layout .sevasetu-hero h1 { font-size:clamp(22px,3vw,32px); }
+/* Keep cards/tables full width of remaining content */
+body.module-layout .sevasetu-stats { grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); }
+body.module-layout .sevasetu-card { width:100%; }
+
+/* Mobile: sidebar becomes a horizontal top bar */
+@media (max-width:768px) {
+    body.module-layout { flex-direction:column; }
+    body.module-layout .module-side { width:100%; height:auto; position:static; }
+    body.module-layout .module-side nav { display:flex; overflow-x:auto; }
+    body.module-layout .module-side nav a { white-space:nowrap; }
+    body.module-layout .sevasetu-section { padding:18px 14px 32px; }
+    .sevasetu-module-meta { gap:8px; }
+    .sevasetu-module-meta .mh-controls { border:none; padding:0; background:transparent; }
+    .sevasetu-module-meta .mh-user { font-size:12px; }
+}
+
+/* ============================================================
+   RESPONSIVE (same as Home)
+   ============================================================ */
+@media (max-width:768px) {
+    .sevasetu-utility { height:auto; padding:6px 12px; gap:4px; font-size:10px; }
+    .sevasetu-utility .su-left .tag { display:none; }
+    .sevasetu-header { height:auto; padding:10px 16px; }
+    .sevasetu-nav { order:3; width:100%; justify-content:center; gap:2px; }
+    .sevasetu-nav a { padding:6px 8px; font-size:11px; }
+    .sevasetu-hero { padding:32px 16px; }
+    .sevasetu-section { padding:40px 16px; }
+    .sevasetu-container { padding:0 16px; }
+}
+@media (prefers-reduced-motion:reduce) { * { animation-duration:.01ms !important; transition-duration:.01ms !important; } }

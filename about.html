@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | SevaSetu</title>
+    <meta name="description"
+        content="About SevaSetu — an AI-assisted digital grievance management research prototype for smart governance.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="assets/css/sevasetu.css">
+</head>
+
+<body>
+    <div id="sr-announcer" aria-live="polite" style="position:absolute;left:-9999px;"></div>
+    <a href="#main-content" class="skip-link">Skip to Main Content</a>
+
+    <!-- Homepage-style header injected here -->
+    <div id="sevasetu-root"></div>
+
+    <!-- Page hero — same style as Home -->
+    <section class="sevasetu-hero" aria-labelledby="about-heading">
+        <div class="hero-label">About SevaSetu</div>
+        <h1 id="about-heading">Building a More Connected Civic Experience</h1>
+        <p class="hero-sub">SevaSetu is an AI-assisted digital grievance management research prototype designed to
+            simplify civic issue reporting and improve transparency.</p>
+        <div class="hero-actions">
+            <a href="citizen/register-complaint.html" class="sevasetu-button btn-primary">📝 Report an Issue</a>
+            <a href="citizen/track.html" class="sevasetu-button btn-outline">🔍 Track Complaint</a>
+        </div>
+    </section>
+
+    <main id="main-content">
+        <!-- Why SevaSetu exists -->
+        <section class="sevasetu-section">
+            <p class="section-label">Why SevaSetu</p>
+            <h2 class="section-title">The Problem We're Exploring</h2>
+            <p class="section-desc">Civic grievance reporting is often fragmented, unclear and hard to track. SevaSetu
+                explores how a citizen-centred, AI-assisted workflow can help.</p>
+            <div class="sevasetu-grid">
+                <div class="sevasetu-card">
+                    <h3>🎯 Citizen-Centered Approach</h3>
+                    <p>Simplifies reporting with text, voice, image and location inputs, in multiple languages.</p>
+                </div>
+                <div class="sevasetu-card">
+                    <h3>🤖 AI-Assisted Workflow</h3>
+                    <p>Helps organise, categorise and route grievances for faster, clearer review.</p>
+                </div>
+                <div class="sevasetu-card">
+                    <h3>🧭 Transparency</h3>
+                    <p>Citizens can track status and see the journey of their complaint from submission onward.</p>
+                </div>
+                <div class="sevasetu-card">
+                    <h3>♿ Accessibility</h3>
+                    <p>Designed with accessibility principals — keyboard navigation, resizable text, high contrast.</p>
+                </div>
+                <div class="sevasetu-card">
+                    <h3>🛡️ Responsible AI</h3>
+                    <p>AI assists the workflow. Final administrative decisions remain with authorised personnel.</p>
+                </div>
+                <div class="sevasetu-card">
+                    <h3>🔬 Research Prototype</h3>
+                    <p>An academic demonstration exploring smart governance — not an official government website.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Core modules -->
+        <section class="sevasetu-section" style="background:var(--color-bg);border-radius:var(--radius-lg);">
+            <p class="section-label">Core Modules</p>
+            <h2 class="section-title">One Platform, Connected Modules</h2>
+            <p class="section-desc">Every part of SevaSetu shares the same design language and connected data.</p>
+            <div class="sevasetu-grid">
+                <div class="sevasetu-card">
+                    <h3>👤 Citizen</h3>
+                    <p>Register, track and manage complaints with live status timelines.</p>
+                </div>
+                <div class="sevasetu-card">
+                    <h3>👮 Officer</h3>
+                    <p>Accept, update status, upload proof, GPS verify and escalate complaints.</p>
+                </div>
+                <div class="sevasetu-card">
+                    <h3>🏢 Department</h3>
+                    <p>Analytics, officers, complaints, heatmaps and exports for a service area.</p>
+                </div>
+                <div class="sevasetu-card">
+                    <h3>🛠️ Admin</h3>
+                    <p>System-wide oversight — departments, citizens, officers, statistics and audit logs.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Homepage-style footer injected here -->
+    <div id="sevasetu-footer"></div>
+
+    <script src="assets/js/sevasetu.js"></script>
+</body>
+
+</html>

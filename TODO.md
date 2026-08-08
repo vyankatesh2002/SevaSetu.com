@@ -1,39 +1,72 @@
-# Task Progress
+# SevaSetu — Full Integration & Homepage-Style Consistency Plan
 
-## Previous Steps (Done)
-- [x] Analyze existing files
-- [x] Update index.html with full layout structure
-- [x] Update style.css with dark theme, glassmorphism, and responsive grid
-- [x] Verify output
+## Goal
+Make every page match the homepage (CIP.html) design system — same background, text, colors, header/footer, cards, badges, tables — and connect all modules to one shared data store.
 
-## Step 4: Modular Frontend Architecture
-- [x] Create folder structure (/frontend/css, /frontend/js, /frontend/components)
-- [x] Create frontend/js/state.js (data management layer)
-- [x] Create frontend/js/api.js (mock API service layer with localStorage)
-- [x] Create frontend/js/utils.js (helper functions)
-- [x] Create frontend/components/complaintCard.js
-- [x] Create frontend/components/officerCard.js
-- [x] Create frontend/components/statsBar.js
-- [x] Create frontend/components/alertsPanel.js
-- [x] Create frontend/js/ui.js (rendering system)
-- [x] Create frontend/js/map.js (Leaflet map logic)
-- [x] Create frontend/js/app.js (main entry/controller)
-- [x] Create frontend/index.html (update paths for modules)
-- [x] Copy style.css to frontend/css/styles.css
-- [x] Test end-to-end (form submit, status cycle, rendering)
+## Shared system (done)
+- [x] `assets/css/sevasetu.css` — shared homepage design system
+- [x] `assets/js/sevasetu.js` — shared layout engine (header/footer/dark/contrast/font)
+- [x] Public pages: about, services, departments, research, faq, how-it-works, ai, documentation, contact
+- [x] pages/login.html, pages/register.html
 
-## Step 5: Real Backend (Node.js + Express + MongoDB)
-- [x] Initialize backend project (npm init, install dependencies)
-- [x] Create backend/package.json with ES modules
-- [x] Create backend/server.js (Express server)
-- [x] Create backend/config/db.js (MongoDB connection)
-- [x] Create backend/models/Complaint.js (Mongoose schema)
-- [x] Create backend/controllers/complaintController.js (CRUD logic)
-- [x] Create backend/routes/complaints.js (API routes)
-- [x] Create backend/.env (environment variables)
-- [x] Update frontend/js/api.js to connect to real backend
-- [x] Update frontend/js/app.js to handle MongoDB _id
-- [x] Test backend server startup
-- [x] Verify API endpoints with curl/Postman
-- [x] Test full flow: create complaint → backend → frontend refresh
+## Citizen module
+- [x] citizen/dashboard.html
+- [x] citizen/register-complaint.html
+- [x] citizen/track.html
+- [x] citizen/history.html
+- [x] citizen/complaint-details.html
+- [x] citizen/emergency.html
+- [x] citizen/profile.html
+- [x] citizen/feedback.html
 
+## Officer module
+- [x] officer/dashboard.html
+- [x] officer/assigned.html
+- [x] officer/complaint-details.html
+- [x] officer/update-status.html
+- [x] officer/upload-proof.html
+- [x] officer/gps-verification.html
+- [x] officer/escalation.html
+- [x] officer/profile.html
+- [x] officer/performance.html
+
+## Department module
+- [x] department/dashboard.html
+- [x] department/complaints.html
+- [x] department/officers.html
+- [x] department/analytics.html
+- [x] department/heatmap.html
+- [x] department/export.html
+
+## Admin module
+- [x] admin/dashboard.html
+- [x] admin/departments.html
+- [x] admin/citizens.html
+- [x] admin/officers.html
+- [x] admin/ai-analytics.html
+- [x] admin/statistics.html
+- [x] admin/audit-logs.html
+- [x] admin/notifications.html
+- [x] admin/reports.html
+- [x] admin/settings.html
+
+## Super Admin module
+- [x] superadmin/dashboard.html
+- [x] superadmin/states.html
+- [x] superadmin/cities.html
+- [x] superadmin/departments.html
+- [x] superadmin/officers.html
+- [x] superadmin/ai-settings.html
+- [x] superadmin/database.html
+- [x] superadmin/security.html
+- [x] superadmin/settings.html
+- [x] superadmin/system-health.html
+- [x] superadmin/backups.html
+- [x] superadmin/logs.html
+
+## Final verification
+- [x] Shared design system (assets/css/sevasetu.css + assets/js/sevasetu.js) applied to ALL pages
+- [x] Every module page uses homepage-style header/footer/nav/background/cards/badges
+- [x] All pages read/write through the single SVS store (store.js) for data consistency
+- [x] Officer/Department/Admin/SuperAdmin modules fully built with role navigation
+- [x] `.b-amber` badge alias added to shared CSS for consistency

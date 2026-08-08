@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Department Dashboard | SevaSetu</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../assets/css/sevasetu.css">
+    <style>
+        body {
+            display: flex;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .module-side {
+            width: 240px;
+            background: var(--color-gray-900);
+            color: #fff;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+        }
+
+        .module-side .side-logo {
+            padding: 18px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, .12);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .module-side .side-logo .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--color-primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .module-side nav {
+            flex: 1;
+            padding: 12px 10px;
+        }
+
+        .module-side nav a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 2px;
+            transition: all .2s;
+        }
+
+        .module-side nav a:hover,
+        .module-side nav a.active {
+            background: var(--color-primary);
+            color: #fff;
+        }
+
+        .module-side .side-foot {
+            padding: 14px 16px;
+            border-top: 1px solid rgba(255, 255, 255, .12);
+            font-size: 12px;
+            color: #9ca3af;
+        }
+
+        .civic-wrap {
+            flex: 1;
+            min-width: 0;
+        }
+
+        @media (max-width:768px) {
+            body {
+                flex-direction: column;
+            }
+
+            .module-side {
+                width: 100%;
+                height: auto;
+                position: static;
+            }
+
+            .module-side nav {
+                display: flex;
+                overflow-x: auto;
+            }
+
+            .module-side nav a {
+                white-space: nowrap;
+            }
+        }
+    </style>
+</head>
+
+<body class="module-layout">
+    <aside class="module-side">
+        <div class="side-logo">
+            <div class="logo-icon">🏢</div>
+            <div><strong>SevaSetu</strong><br><small style="color:#9ca3af;">Department Module</small></div>
+        </div>
+        <nav>
+            <a href="dashboard.html" class="active"><i class="bi bi-speedometer2"></i> Dashboard</a>
+            <a href="complaints.html"><i class="bi bi-list-ul"></i> Complaints</a>
+            <a href="officers.html"><i class="bi bi-people"></i> Officers</a>
+            <a href="analytics.html"><i class="bi bi-graph-up"></i> Analytics</a>
+            <a href="heatmap.html"><i class="bi bi-map"></i> Heatmap</a>
+            <a href="export.html"><i class="bi bi-download"></i> Export</a>
+        </nav>
+        <div class="side-foot">Dept. Head: Water Supply</div>
+    </aside>
+
+    <div class="civic-wrap">
+        <div id="sevasetu-root"></div>
+        <main id="main-content" class="sevasetu-section">
+            <div id="sr-announcer" aria-live="polite" style="position:absolute;left:-9999px;"></div>
+            <div class="sevasetu-hero" style="border-radius:var(--radius-lg);margin-bottom:24px;text-align:left;">
+                <div class="hero-label">Department Dashboard</div>
+                <h1 style="font-size:clamp(22px,3vw,32px);">🏢 Water Supply Department</h1>
+                <p class="hero-sub">Dept. Head View · Demo data</p>
+            </div>
+
+            <div class="sevasetu-stats" id="statsRow">
+                <div class="sevasetu-stat">
+                    <div class="num">0</div>
+                    <div class="label">Total</div>
+                </div>
+                <div class="sevasetu-stat">
+                    <div class="num">0</div>
+                    <div class="label">Pending</div>
+                </div>
+                <div class="sevasetu-stat">
+                    <div class="num">0</div>
+                    <div class="label">In Progress</div>
+                </div>
+                <div class="sevasetu-stat">
+                    <div class="num">0</div>
+                    <div class="label">Resolved</div>
+                </div>
+            </div>
+
+            <div class="sevasetu-card">
+                <h3>📋 Department Complaints</h3>
+                <div class="sevasetu-table-wrap mt-3">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Subject</th>
+                                <th>Priority</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="deptTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+        <div id="sevasetu-footer"></div>
+    </div>
+
+    <script src="../assets/js/store.js"></script>
+    <script src="../assets/js/sevasetu.js"></script>
+    <script>
+        (function () {
+            var dept = 'Water Supply';
+            var complaints = (window.SVS) ? SVS.getComplaints().filter(function (c) { return c.department === dept; }) : [];
+            var stats = document.getElementById('statsRow');
+            var total = complaints.length;
+            var pending = complaints.filter(function (c) { return ['SUBMITTED', 'AI_ANALYSED', 'DEPARTMENT_ASSIGNED', 'OFFICER_ASSIGNED'].indexOf(c.status) !== -1; }).length;
+            var inProgress = complaints.filter(function (c) { return ['ACCEPTED', 'IN_PROGRESS', 'FIELD_VERIFICATION', 'PROOF_UPLOADED'].indexOf(c.status) !== -1; }).length;
+            var resolved = complaints.filter(function (c) { return ['RESOLVED', 'CLOSED'].indexOf(c.status) !== -1; }).length;
+            stats.innerHTML = '<div class="sevasetu-stat"><div class="num">' + total + '</div><div class="label">Total</div></div><div class="sevasetu-stat"><div class="num">' + pending + '</div><div class="label">Pending</div></div><div class="sevasetu-stat"><div class="num">' + inProgress + '</div><div class="label">In Progress</div></div><div class="sevasetu-stat"><div class="num">' + resolved + '</div><div class="label">Resolved</div></div>';
+            var tbody = document.getElementById('deptTable');
+            if (!complaints.length) { tbody.innerHTML = '<tr><td colspan="5" class="sevasetu-empty">No complaints for this department.</td></tr>'; }
+            else {
+                tbody.innerHTML = complaints.map(function (c) {
+                    var label = (SVS.STATUS_LABELS && SVS.STATUS_LABELS[c.status]) || c.status;
+                    var cls = (SVS.STATUS_BADGE_CLASS && SVS.STATUS_BADGE_CLASS[c.status]) || 'bg-secondary';
+                    var prioCls = c.priority === 'High' ? 'b-red' : c.priority === 'Medium' ? 'b-amber' : 'b-green';
+                    return '<tr><td><strong>#' + c.complaintId + '</strong></td><td>' + c.title + '</td><td><span class="sevasetu-badge ' + prioCls + '">' + c.priority + '</span></td><td><span class="sevasetu-badge ' + cls + '">' + label + '</span></td><td><a class="sevasetu-button btn-outline btn-sm" href="complaints.html">View</a></td></tr>';
+                }).join('');
+            }
+        })();
+    </script>
+</body>
+
+</html>

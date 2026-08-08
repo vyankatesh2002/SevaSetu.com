@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SevaSetu — an AI-assisted digital civic grievance management platform designed to help citizens report public-service issues, track resolutions, and support transparent governance workflows.">
+    <meta name="keywords" content="SevaSetu, civic grievance, complaint management, smart governance, citizen reporting, AI-assisted, GovTech">
+    <meta name="author" content="SevaSetu">
+    <meta name="robots" content="index, follow">
+    <title>SevaSetu — AI-Assisted Digital Grievance Management Platform</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <style>
+        /* ============================================================
+           SEVASETU — Civic-Tech Product Design System
+           Restrained, trustworthy GovTech palette: deep blue / teal /
+           white / neutral gray. Colors communicate status, access,
+           actions and trust — not decoration.
+           ============================================================ */
+        :root {
+            --blue-900: #0a2540;
+            --blue-800: #0F4C81;
+            --blue-700: #1A6DB5;
+            --blue-600: #2563eb;
+            --blue-100: #e7f1ff;
+            --teal-700: #0d9488;
+            --teal-600: #14b8a6;
+            --teal-100: #ccfbf1;
+            --green-700: #15803d;
+            --green-100: #dcfce7;
+            --amber-700: #b45309;
+            --amber-100: #fef3c7;
+            --red-700: #b91c1c;
+            --red-100: #fee2e2;
+            --gray-900: #111827;
+            --gray-800: #1f2937;
+            --gray-700: #374151;
+            --gray-600: #4b5563;
+            --gray-500: #6b7280;
+            --gray-400: #9ca3af;
+            --gray-300: #d1d5db;
+            --gray-200: #e5e7eb;
+            --gray-100: #f3f4f6;
+            --gray-50: #f9fafb;
+            --white: #ffffff;
+            --text: #1f2937;
+            --text-muted: #4b5563;
+            --border: #e5e7eb;
+            --card: #ffffff;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.10), 0 4px 10px rgba(0,0,0,0.06);
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --transition: 0.25s cubic-bezier(0.4,0,0.2,1);
+            --max-width: 1180px;
+            --header-h: 72px;
+        }
+
+        /* ---- Dark Mode ---- */
+        [data-theme="dark"] {
+            --text: #e5e7eb;
+            --text-muted: #cbd5e1;
+            --border: #374151;
+            --card: #252836;
+            --gray-50: #1f2232;
+            --gray-100: #252836;
+            --gray-200: #374151;
+            --gray-300: #4b5563;
+            --gray-700: #cbd5e1;
+            --gray-800: #e5e7eb;
+            --gray-900: #f3f4f6;
+            --white: #1e2130;
+            --blue-100: #1e3a5f;
+            --teal-100: #123a36;
+            --green-100: #12351f;
+            --amber-100: #3a2f12;
+            --red-100: #3a1a1a;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.4);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.5);
+        }
+        [data-theme="dark"] body { background-color: #1a1d23; }
+        [data-theme="dark"] .site-header { background: #1e2130; border-bottom-color: #2a2d3a; }
+        [data-theme="dark"] .site-footer { background: #15171d; border-top-color: #2a2d3a; }
+        [data-theme="dark"] .hero { background: linear-gradient(160deg,#1a1d23,#1e2a3a,#1a1d23); }
+        [data-theme="dark"] .hero-card { background:#252836; border-color:#374151; }
+        [data-theme="dark"] input, [data-theme="dark"] textarea, [data-theme="dark"] select { background:#1e2130; color:#e5e7eb; border-color:#374151; }
+
+        /* ---- High Contrast ---- */
+        [data-contrast="high"] {
+            --text:#000; --text-muted:#1a1a1a; --border:#000; --card:#fff;
+            --gray-50:#fff; --gray-100:#f0f0f0;
+        }
+        [data-contrast="high"] * { border-width:2px !important; }
+        [data-contrast="high"] a, [data-contrast="high"] button { text-decoration:underline; }
+
+        /* ---- Font Size ---- */
+        [data-font="small"] { font-size:14px; }
+        [data-font="large"] { font-size:20px; }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior:smooth; scroll-padding-top:calc(var(--header-h) + 20px); }
+        body {
+            font-family:'Segoe UI','Inter',system-ui,-apple-system,sans-serif;
+            font-size:var(--font-size-base,16px);
+            line-height:1.6;
+            color:var(--text);
+            background:var(--gray-50);
+            transition:background-color .3s,color .3s;
+            -webkit-font-smoothing:antialiased;
+        }
+        a { color:var(--blue-600); }
+        img { max-width:100%; }
+
+        /* ---- Skip Link ---- */
+        .skip-link {
+            position:absolute; top:-100px; left:16px; background:var(--blue-800); color:#fff;
+            padding:10px 20px; border-radius:var(--radius-sm); z-index:10000; font-weight:600;
+            text-decoration:none; transition:top .2s;
+        }
+        .skip-link:focus { top:8px; }
+
+        /* ---- Utility bar ---- */
+        .utility-bar {
+            background:var(--gray-900); color:#e5e7eb; font-size:13px; padding:0 20px;
+            height:38px; display:flex; align-items:center; justify-content:space-between;
+            flex-wrap:wrap; gap:8px; border-bottom:1px solid #374151; position:sticky;
+            top:0; z-index:1000;
+        }
+        .utility-bar .ub-left { display:flex; align-items:center; gap:12px; flex-wrap:wrap; font-size:12px; }
+        .utility-bar .ub-left .flag { font-size:16px; }
+        .utility-bar .ub-left .tag { background:#374151; padding:3px 10px; border-radius:20px; font-size:10px; letter-spacing:.3px; white-space:nowrap; }
+        .utility-bar .ub-right { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+        .utility-bar .ub-right button, .utility-bar .ub-right select {
+            background:transparent; border:1px solid #4b5563; color:#e5e7eb; padding:3px 8px;
+            border-radius:4px; font-size:11px; cursor:pointer; white-space:nowrap;
+        }
+        .utility-bar .ub-right button:hover { background:#374151; }
+        .utility-bar .ub-right select { background:#1f2937; }
+
+        /* ---- Header ---- */
+        .site-header {
+            background:var(--white); border-bottom:1px solid var(--border); padding:0 24px;
+            height:var(--header-h); display:flex; align-items:center; justify-content:space-between;
+            gap:16px; position:sticky; top:38px; z-index:999; box-shadow:var(--shadow-sm);
+            transition:background .3s,border-color .3s;
+        }
+        .brand { display:flex; align-items:center; gap:10px; text-decoration:none; flex-shrink:0; }
+        .brand .logo-icon {
+            width:42px; height:42px; background:var(--blue-800); color:#fff; border-radius:var(--radius-sm);
+            display:flex; align-items:center; justify-content:center; font-weight:700; font-size:20px;
+        }
+        .brand .logo-text { font-weight:800; font-size:20px; color:var(--blue-800); line-height:1.1; }
+        .brand .logo-tag { font-size:11px; color:var(--text-muted); font-weight:400; }
+        .nav-links { display:flex; gap:4px; align-items:center; flex-wrap:wrap; }
+        .nav-links a {
+            text-decoration:none; color:var(--text-muted); font-weight:500; font-size:14px;
+            padding:8px 12px; border-radius:var(--radius-sm); transition:all .2s; white-space:nowrap;
+        }
+        .nav-links a:hover, .nav-links a:focus { background:var(--gray-100); color:var(--blue-800); }
+        .header-actions { display:flex; gap:8px; align-items:center; flex-shrink:0; }
+
+        .btn {
+            display:inline-flex; align-items:center; gap:6px; padding:10px 18px; border-radius:var(--radius-sm);
+            font-weight:600; font-size:14px; cursor:pointer; border:none; text-decoration:none;
+            transition:all var(--transition); white-space:nowrap; letter-spacing:.2px;
+        }
+        .btn-primary { background:var(--blue-800); color:#fff; }
+        .btn-primary:hover { background:var(--blue-900); box-shadow:var(--shadow-md); transform:translateY(-1px); }
+        .btn-outline { background:transparent; border:2px solid var(--blue-800); color:var(--blue-800); }
+        .btn-outline:hover { background:var(--blue-800); color:#fff; }
+        .btn-ghost { background:var(--gray-100); color:var(--text); }
+        .btn-ghost:hover { background:var(--gray-200); }
+        .btn-lg { padding:14px 28px; font-size:16px; border-radius:var(--radius-md); }
+        .btn-sm { padding:7px 14px; font-size:13px; }
+
+        /* Hamburger */
+        .hamburger { display:none; background:none; border:none; font-size:26px; color:var(--text); cursor:pointer; }
+
+        /* Mobile nav */
+        .mobile-nav {
+            display:none; background:var(--white); border-top:1px solid var(--border); flex-direction:column;
+            padding:12px 24px; position:sticky; top:110px; z-index:998; box-shadow:var(--shadow-md);
+        }
+        .mobile-nav.open { display:flex; }
+        .mobile-nav a { padding:12px 8px; text-decoration:none; color:var(--text); font-weight:500; border-bottom:1px solid var(--border); }
+        .mobile-nav a:hover { background:var(--gray-100); }
+
+        /* ---- Hero ---- */
+        .hero {
+            background:linear-gradient(160deg,#f0f5fb 0%,#e8f0f8 30%,#fdf6f0 70%,#f8f9fa 100%);
+            padding:56px 24px 64px; display:flex; align-items:center; justify-content:center;
+            gap:44px; flex-wrap:wrap; min-height:520px; transition:background .3s;
+        }
+        .hero-left { flex:1 1 400px; max-width:580px; }
+        .hero-left .eyebrow { display:inline-block; background:var(--teal-100); color:var(--teal-700); font-size:12px; font-weight:700; padding:5px 14px; border-radius:20px; margin-bottom:14px; letter-spacing:.5px; }
+        .hero-left h1 { font-size:clamp(30px,4.2vw,48px); font-weight:800; color:var(--text); line-height:1.15; margin-bottom:14px; letter-spacing:-.5px; }
+        .hero-left .hero-sub { font-size:18px; color:var(--text-muted); margin-bottom:18px; line-height:1.6; max-width:540px; }
+        .hero-left .hero-trust { font-size:13px; color:var(--text-muted); font-weight:500; margin-bottom:22px; }
+        .hero-left .hero-buttons { display:flex; gap:12px; flex-wrap:wrap; }
+        .hero-right { flex:1 1 440px; max-width:560px; }
+        .hero-card {
+            background:var(--card); border:1px solid var(--border); border-radius:var(--radius-lg);
+            box-shadow:var(--shadow-lg); padding:20px; transition:background .3s,border-color .3s;
+        }
+        .hero-card .hc-head { display:flex; gap:8px; margin-bottom:16px; align-items:center; }
+        .hero-card .hc-dot { width:10px; height:10px; border-radius:50%; background:var(--gray-300); }
+        .hero-card .hc-dot:nth-child(1){background:#ef4444;} .hero-card .hc-dot:nth-child(2){background:#f59e0b;} .hero-card .hc-dot:nth-child(3){background:#10b981;}
+        .hero-card .hc-title { font-size:11px; color:var(--text-muted); margin-left:6px; font-weight:600; }
+        .hero-flow { display:flex; flex-direction:column; gap:0; }
+        .flow-row { display:flex; align-items:center; gap:12px; }
+        .flow-badge { width:34px; height:34px; border-radius:50%; background:var(--blue-100); color:var(--blue-800); display:flex; align-items:center; justify-content:center; font-weight:700; flex-shrink:0; }
+        .flow-name { font-weight:600; font-size:14px; }
+        .flow-desc { font-size:11px; color:var(--text-muted); }
+        .flow-arrow { text-align:center; color:var(--teal-600); font-weight:700; margin:2px 0 2px 17px; font-size:14px; }
+
+        /* ---- Section common ---- */
+        .section { padding:64px 24px; max-width:var(--max-width); margin:0 auto; }
+        .section-label { text-transform:uppercase; letter-spacing:1.5px; font-size:12px; font-weight:700; color:var(--blue-600); margin-bottom:6px; }
+        .section-title { font-size:clamp(24px,3vw,34px); font-weight:800; color:var(--text); margin-bottom:8px; letter-spacing:-.3px; }
+        .section-desc { color:var(--text-muted); font-size:16px; margin-bottom:32px; max-width:680px; }
+
+        /* ---- Quick actions ---- */
+        .quick-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:18px; }
+        .quick-card {
+            background:var(--card); border:1px solid var(--border); border-radius:var(--radius-lg);
+            padding:26px; box-shadow:var(--shadow-sm); transition:all var(--transition); text-decoration:none;
+            color:var(--text); display:block;
+        }
+        .quick-card:hover { box-shadow:var(--shadow-lg); transform:translateY(-3px); border-color:var(--blue-600); }
+        .quick-card .qc-icon { font-size:36px; margin-bottom:12px; }
+        .quick-card h3 { font-size:18px; font-weight:700; margin-bottom:6px; }
+        .quick-card p { font-size:13px; color:var(--text-muted); margin-bottom:14px; }
+        .quick-card .qc-link { font-weight:700; color:var(--blue-600); font-size:14px; }
+
+        /* ---- How it works ---- */
+        .steps-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:16px; }
+        .step-card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius-lg); padding:24px; box-shadow:var(--shadow-sm); position:relative; }
+        .step-num { position:absolute; top:18px; right:20px; font-size:34px; font-weight:800; color:var(--gray-200); }
+        .step-card .sc-icon { font-size:30px; margin-bottom:10px; }
+        .step-card h3 { font-size:17px; font-weight:700; margin-bottom:6px; }
+        .step-card p { font-size:13px; color:var(--text-muted); }
+        .ai-note { margin-top:20px; background:var(--teal-100); color:var(--teal-700); border-radius:var(--radius-md); padding:14px 18px; font-size:13px; font-weight:500; }
+
+        /* ---- Report categories ---- */
+        .cat-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:12px; }
+        .cat-card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius-md); padding:18px 12px; text-align:center; transition:all var(--transition); cursor:pointer; text-decoration:none; color:var(--text); display:block; box-shadow:var(--shadow-sm); }
+        .cat-card:hover { border-color:var(--teal-600); box-shadow:var(--shadow-md); transform:translateY(-2px); }
+        .cat-card .cat-icon { font-size:28px; display:block; margin-bottom:8px; }
+        .cat-card span { font-weight:600; font-size:13px; }
+
+        /* ---- Smart reporting ---- */
+        .report-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px; }
+        .report-card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius-lg); padding:22px; box-shadow:var(--shadow-sm); }
+        .report-card .ricon { font-size:30px; margin-bottom:10px; }
+        .report-card h3 { font-size:16px; font-weight:700; margin-bottom:6px; }
+        .report-card p { font-size:13px; color:var(--text-muted); }
+
+        /* ---- Track section ---- */
+        .track-wrap { display:grid; grid-template-columns:1fr 1fr; gap:28px; align-items:center; }
+        .track-card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius-lg); padding:26px; box-shadow:var(--shadow-md); }
+        .track-search { display:flex; gap:10px; margin-bottom:20px; }
+        .track-search input { flex:1; padding:12px 16px; border:2px solid var(--border); border-radius:var(--radius-sm); font-size:15px; }
+        .track-search input:focus { border-color:var(--blue-600); outline:none; box-shadow:0 0 0 4px var(--blue-100); }
+        .tl { position:relative; padding-left:28px; margin-top:16px; }
+        .tl::before { content:''; position:absolute; left:9px; top:0; bottom:0; width:2px; background:var(--border); }
+        .tl-step { position:relative; margin-bottom:18px; }
+        .tl-dot { position:absolute; left:-28px; top:3px; width:16px; height:16px; border-radius:50%; background:var(--gray-300); border:3px solid var(--card); }
+        .tl-dot.done { background:var(--green-700); }
+        .tl-dot.active { background:var(--blue-600); box-shadow:0 0 0 4px var(--blue-100); }
+        .tl-step strong { font-size:14px; }
+        .tl-step small { display:block; color:var(--text-muted); font-size:12px; }
+        .demo-note { font-size:12px; color:var(--text-muted); margin-top:10px; font-style:italic; }
+        .track-fields { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px; }
+        .track-field label { font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase; display:block; }
+        .track-field p { font-size:14px; margin-top:2px; }
+
+        /* ---- Transparency ---- */
+        .trans-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; }
+        .trans-card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius-lg); padding:22px; box-shadow:var(--shadow-sm); }
+        .trans-card h3 { font-size:16px; font-weight:700; margin-bottom:8px; color:var(--blue-800); }
+        .trans-card p { font-size:13px; color:var(--text-muted); }
+
+        /* ---- AI responsible ---- */
+        .ai-wrap { background:var(--blue-100); border-radius:var(--radius-xl); padding:36px; display:grid; grid-template-columns:1fr 1fr; gap:28px; align-items:center; }
+        .ai-wrap h2 { font-size:clamp(22px,2.6vw,30px); font-weight:800; color:var(--blue-900); margin-bottom:10px; }
+        .ai-wrap p { color:var(--blue-800); font-size:15px; }
+        .ai-points { display:flex; flex-direction:column; gap:12px; }
+        .ai-point { display:flex; gap:10px; align-items:flex-start; background:var(--white); border-radius:var(--radius-md); padding:14px; box-shadow:var(--shadow-sm); }
+        .ai-point .pt-ic { font-size:20px; }
+        .ai-point strong { font-size:14px; display:block; }
+        .ai-point small { font-size:12px; color:var(--text-muted); }
+        .ai-disclaimer { margin-top:18px; background:var(--white); border-left:4px solid var(--amber-700); border-radius:var(--radius-sm); padding:12px 16px; font-size:13px; color:var(--text); }
+
+        /* ---- Accessibility ---- */
+        .a11y-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(170px,1fr)); gap:12px; }
+        .a11y-item { background:var(--card); border:1px solid var(--border); border-radius:var(--radius-md); padding:18px 14px; text-align:center; box-shadow:var(--shadow-sm); font-weight:600; font-size:13px; color:var(--text); }
+        .a11y-item .ai-ic { font-size:26px; display:block; margin-bottom:8px; }
+
+        /* ---- Trust ---- */
+        .trust-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:18px; }
+        .trust-card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius-lg); padding:24px; box-shadow:var(--shadow-sm); }
+        .trust-card h3 { font-size:16px; font-weight:700; margin-bottom:8px; }
+        .trust-card p { font-size:13px; color:var(--text-muted); }
+        .trust-links { display:flex; flex-wrap:wrap; gap:10px; margin-top:24px; }
+        .trust-links a { font-size:13px; font-weight:600; }
+
+        /* ---- Dashboard preview ---- */
+        .dash-preview { background:var(--card); border:1px solid var(--border); border-radius:var(--radius-lg); box-shadow:var(--shadow-lg); padding:24px; }
+        .dp-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; flex-wrap:wrap; gap:10px; }
+        .dp-head h3 { font-size:18px; font-weight:700; }
+        .complain-cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; }
+        .comp-card { border:1px solid var(--border); border-radius:var(--radius-md); padding:16px; background:var(--gray-50); }
+        .comp-card .cc-title { font-weight:700; font-size:14px; margin-bottom:8px; }
+        .comp-card .cc-meta { font-size:12px; color:var(--text-muted); }
+        .badge { display:inline-block; padding:4px 10px; border-radius:20px; font-size:11px; font-weight:700; }
+        .b-blue { background:var(--blue-100); color:var(--blue-800); }
+        .b-green { background:var(--green-100); color:var(--green-700); }
+        .b-amber { background:var(--amber-100); color:var(--amber-700); }
+
+        /* ---- Governance value ---- */
+        .gov-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; }
+        .gov-card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius-lg); padding:22px; box-shadow:var(--shadow-sm); }
+        .gov-card .g-ic { font-size:28px; margin-bottom:10px; }
+        .gov-card h3 { font-size:16px; font-weight:700; margin-bottom:6px; }
+        .gov-card p { font-size:13px; color:var(--text-muted); }
+
+        /* ---- Impact (qualitative) ---- */
+        .impact-strip { display:flex; flex-wrap:wrap; gap:14px; justify-content:center; padding:30px 24px; max-width:var(--max-width); margin:0 auto; }
+        .impact-pill { background:var(--card); border:1px solid var(--border); border-radius:var(--radius-md); padding:14px 20px; font-weight:600; font-size:14px; color:var(--text); box-shadow:var(--shadow-sm); }
+
+        /* ---- About ---- */
+        .about-wrap { display:grid; grid-template-columns:1fr 1fr; gap:32px; align-items:center; }
+        .about-wrap h2 { font-size:clamp(22px,2.6vw,30px); font-weight:800; margin-bottom:12px; }
+        .about-wrap p { color:var(--text-muted); margin-bottom:12px; }
+        .about-list { list-style:none; }
+        .about-list li { padding:6px 0; border-bottom:1px solid var(--border); font-size:14px; }
+        .about-list li::before { content:'✓ '; color:var(--green-700); font-weight:700; }
+
+        /* ---- Research ---- */
+        .research-card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius-lg); padding:24px; box-shadow:var(--shadow-sm); text-align:center; }
+        .research-card .r-ic { font-size:32px; margin-bottom:10px; }
+        .research-card strong { display:block; margin-bottom:6px; }
+        .research-card p { font-size:12px; color:var(--text-muted); }
+
+        /* ---- Future ---- */
+        .future-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px; }
+        .future-card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius-lg); padding:22px; box-shadow:var(--shadow-sm); }
+        .future-card .f-ic { font-size:28px; margin-bottom:10px; }
+        .future-card h3 { font-size:16px; font-weight:700; margin-bottom:6px; }
+        .future-card p { font-size:13px; color:var(--text-muted); }
+        .future-note { margin-top:20px; font-size:12px; color:var(--text-muted); font-style:italic; text-align:center; }
+
+        /* ---- CTA ---- */
+        .cta { background:var(--blue-800); color:#fff; text-align:center; padding:56px 24px; border-radius:var(--radius-xl); margin:40px auto; max-width:var(--max-width); }
+        .cta h2 { font-size:clamp(24px,3vw,34px); font-weight:800; margin-bottom:10px; }
+        .cta p { margin-bottom:22px; opacity:.92; max-width:600px; margin-left:auto; margin-right:auto; }
+        .cta-buttons { display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
+        .btn-white { background:#fff; color:var(--blue-800); font-weight:700; }
+        .btn-white:hover { background:#e5e7eb; }
+        .btn-transparent { background:transparent; border:2px solid #fff; color:#fff; }
+        .btn-transparent:hover { background:rgba(255,255,255,.15); }
+
+        /* ---- Footer ---- */
+        .site-footer { background:var(--gray-900); color:#e5e7eb; padding:48px 24px 22px; border-top:4px solid var(--teal-600); transition:background .3s; }
+        .footer-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:28px; max-width:var(--max-width); margin:0 auto 28px; }
+        .footer-col h4 { color:#fff; margin-bottom:12px; font-size:15px; }
+        .footer-col a { display:block; color:#cbd5e1; text-decoration:none; font-size:13px; padding:4px 0; transition:color .2s; }
+        .footer-col a:hover { color:#fff; text-decoration:underline; }
+        .footer-col .fbrand { font-size:18px; font-weight:800; color:#fff; }
+        .footer-col .ftag { font-size:12px; color:#9ca3af; margin-top:4px; }
+        .footer-bottom { text-align:center; font-size:12px; color:#9ca3af; border-top:1px solid #374151; padding-top:18px; max-width:var(--max-width); margin:0 auto; }
+
+        /* ---- Leaflet map ---- */
+        #civic-map { height:360px; border-radius:var(--radius-lg); border:1px solid var(--border); box-shadow:var(--shadow-md); z-index:1; }
+
+        /* ---- Responsive ---- */
+        @media (max-width:992px) {
+            .nav-links { display:none; }
+            .hamburger { display:block; }
+        }
+        @media (max-width:768px) {
+            .utility-bar { height:auto; padding:6px 12px; gap:4px; font-size:10px; }
+            .utility-bar .ub-left .tag { display:none; }
+            .site-header { padding:10px 16px; height:auto; flex-wrap:wrap; }
+            .hero { flex-direction:column; padding:32px 16px; gap:28px; }
+            .section { padding:44px 16px; }
+            .track-wrap { grid-template-columns:1fr; }
+            .ai-wrap { grid-template-columns:1fr; padding:26px; }
+            .about-wrap { grid-template-columns:1fr; }
+            .track-fields { grid-template-columns:1fr; }
+            .header-actions .btn-sm { display:none; }
+            .header-actions .btn-primary { display:inline-flex; }
+        }
+        @media (prefers-reduced-motion:reduce) {
+            * { animation-duration:.01ms !important; transition-duration:.01ms !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Skip to Main Content -->
+    <a href="#main-content" class="skip-link">Skip to Main Content</a>
+    <!-- Screen Reader Live Region -->
+    <div aria-live="polite" aria-atomic="true" class="sr-only" style="position:absolute;left:-9999px;" id="sr-announcer"></div>
+
+    <!-- Government Utility Bar -->
+    <div class="utility-bar" role="banner" aria-label="Platform utility bar">
+        <div class="ub-left">
+            <span class="flag">🇮🇳</span>
+            <span>Research Prototype · Conceptual Platform</span>
+            <span class="tag">Not an official government website</span>
+        </div>
+        <div class="ub-right">
+            <select id="language-select" aria-label="Select language">
+                <option value="en">🌐 English</option>
+                <option value="mr">मराठी</option>
+                <option value="hi">हिन्दी</option>
+            </select>
+            <button class="font-btn" data-font="small" aria-label="Decrease font size">A-</button>
+            <button class="font-btn" data-font="base" aria-label="Default font size">A</button>
+            <button class="font-btn" data-font="large" aria-label="Increase font size">A+</button>
+            <button id="dark-mode-toggle" aria-label="Toggle dark mode">🌙</button>
+            <button id="contrast-toggle" aria-label="Toggle high contrast">◐</button>
+        </div>
+    </div>
+
+    <!-- Primary Header -->
+    <header class="site-header" role="navigation" aria-label="Main navigation">
+        <a href="CIP.html" class="brand">
+            <div class="logo-icon" aria-hidden="true">SS</div>
+            <div>
+                <div class="logo-text">SevaSetu</div>
+                <div class="logo-tag">Connecting Citizens. Improving Governance.</div>
+            </div>
+        </a>
+        <nav class="nav-links" aria-label="Primary">
+            <a href="#hero">Home</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="citizen/register-complaint.html">Report an Issue</a>
+            <a href="citizen/track.html">Track Complaint</a>
+            <a href="about.html">About</a>
+            <a href="#accessibility">Accessibility</a>
+        </nav>
+        <div class="header-actions">
+            <a href="pages/login.html" class="btn btn-outline btn-sm">Login</a>
+            <a href="citizen/register-complaint.html" class="btn btn-primary btn-sm">Report an Issue</a>
+            <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">☰</button>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav" id="mobileNav" aria-label="Mobile">
+        <a href="#hero">Home</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="citizen/register-complaint.html">Report an Issue</a>
+        <a href="citizen/track.html">Track Complaint</a>
+        <a href="about.html">About SevaSetu</a>
+        <a href="#accessibility">Accessibility</a>
+        <a href="pages/login.html">Login</a>
+    </nav>
+
+    <main id="main-content">
+        <!-- ============ HERO ============ -->
+        <section class="hero" id="hero" aria-labelledby="hero-heading">
+            <div class="hero-left">
+                <span class="eyebrow">AI-Assisted · Civic Grievance Management</span>
+                <h1 id="hero-heading">Your Voice. Your City. Better&nbsp;Governance.</h1>
+                <p class="hero-sub">SevaSetu makes it easier for citizens to report civic issues, track resolutions, and stay informed — helping communities and public authorities work together for better services.</p>
+                <p class="hero-trust">AI-assisted • Accessible • Transparent • Citizen-focused</p>
+                <div class="hero-buttons">
+                    <a href="citizen/register-complaint.html" class="btn btn-primary btn-lg">📝 Report an Issue</a>
+                    <a href="citizen/track.html" class="btn btn-outline btn-lg">🔍 Track My Complaint</a>
+                </div>
+            </div>
+            <div class="hero-right">
+                <div class="hero-card" aria-label="Complaint resolution journey preview">
+                    <div class="hc-head">
+                        <div class="hc-dot"></div><div class="hc-dot"></div><div class="hc-dot"></div>
+                        <span class="hc-title">How a complaint flows</span>
+                    </div>
+                    <div class="hero-flow">
+                        <div class="flow-row"><div class="flow-badge">👤</div><div><div class="flow-name">Citizen</div><div class="flow-desc">Reports an issue</div></div></div>
+                        <div class="flow-arrow">↓</div>
+                        <div class="flow-row"><div class="flow-badge">🤖</div><div><div class="flow-name">SevaSetu</div><div class="flow-desc">AI-assisted organization</div></div></div>
+                        <div class="flow-arrow">↓</div>
+                        <div class="flow-row"><div class="flow-badge">🏛️</div><div><div class="flow-name">Public Authority</div><div class="flow-desc">Reviews & resolves</div></div></div>
+                        <div class="flow-arrow">↓</div>
+                        <div class="flow-row"><div class="flow-badge">✅</div><div><div class="flow-name">Resolution</div><div class="flow-desc">Confirmed by citizen</div></div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ QUICK ACTIONS ============ -->
+        <section class="section" aria-labelledby="quick-heading">
+            <p class="section-label">Quick Access</p>
+            <h2 class="section-title" id="quick-heading">Get Started in Three Simple Ways</h2>
+            <p class="section-desc">Choose the action that fits what you need right now.</p>
+            <div class="quick-grid">
+                <a href="citizen/register-complaint.html" class="quick-card">
+                    <div class="qc-icon">📝</div>
+                    <h3>Report an Issue</h3>
+                    <p>Report roads, water, sanitation, electricity, waste, public infrastructure and other civic problems.</p>
+                    <span class="qc-link">Report Now →</span>
+                </a>
+                <a href="citizen/track.html" class="quick-card">
+                    <div class="qc-icon">🔍</div>
+                    <h3>Track a Complaint</h3>
+                    <p>Enter your complaint ID and view the latest status of your submitted issue.</p>
+                    <span class="qc-link">Track Status →</span>
+                </a>
+                <a href="pages/login.html" class="quick-card">
+                    <div class="qc-icon">💬</div>
+                    <h3>Get Assistance</h3>
+                    <p>Need help using SevaSetu? Sign in to manage your complaints and get support.</p>
+                    <span class="qc-link">Get Help →</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- ============ HOW IT WORKS ============ -->
+        <section class="section" id="how-it-works" aria-labelledby="how-heading">
+            <p class="section-label">Process</p>
+            <h2 class="section-title" id="how-heading">How SevaSetu Works</h2>
+            <p class="section-desc">A simple, five-step process designed to make reporting and resolving civic issues straightforward and transparent.</p>
+            <div class="steps-grid">
+                <div class="step-card"><span class="step-num">01</span><div class="sc-icon">📝</div><h3>Report</h3><p>Describe the issue using text, voice, image, or location.</p></div>
+                <div class="step-card"><span class="step-num">02</span><div class="sc-icon">🧠</div><h3>Understand</h3><p>SevaSetu assists in understanding and organizing the submitted grievance.</p></div>
+                <div class="step-card"><span class="step-num">03</span><div class="sc-icon">🔀</div><h3>Route</h3><p>The grievance is directed toward the appropriate service area or authority.</p></div>
+                <div class="step-card"><span class="step-num">04</span><div class="sc-icon">🛠️</div><h3>Resolve</h3><p>The responsible authority reviews and works on the issue.</p></div>
+                <div class="step-card"><span class="step-num">05</span><div class="sc-icon">📈</div><h3>Track</h3><p>Citizens can follow progress and receive updates until resolution.</p></div>
+            </div>
+            <div class="ai-note">🤖 AI assists the workflow; final administrative decisions remain with authorized personnel.</div>
+        </section>
+
+        <!-- ============ WHAT CAN YOU REPORT ============ -->
+        <section class="section" aria-labelledby="report-cat-heading">
+            <p class="section-label">Categories</p>
+            <h2 class="section-title" id="report-cat-heading">What Can You Report?</h2>
+            <p class="section-desc">Select a category that matches the civic issue you would like to report.</p>
+            <div class="cat-grid">
+                <a href="citizen/register-complaint.html" class="cat-card"><span class="cat-icon">🚧</span>Roads &amp; Infrastructure</a>
+                <a href="citizen/register-complaint.html" class="cat-card"><span class="cat-icon">💧</span>Water Supply</a>
+                <a href="citizen/register-complaint.html" class="cat-card"><span class="cat-icon">🗑️</span>Waste Management</a>
+                <a href="citizen/register-complaint.html" class="cat-card"><span class="cat-icon">💡</span>Street Lighting</a>
+                <a href="citizen/register-complaint.html" class="cat-card"><span class="cat-icon">⚡</span>Electricity</a>
+                <a href="citizen/register-complaint.html" class="cat-card"><span class="cat-icon">🚽</span>Sanitation</a>
+                <a href="citizen/register-complaint.html" class="cat-card"><span class="cat-icon">🏥</span>Public Health</a>
+                <a href="citizen/register-complaint.html" class="cat-card"><span class="cat-icon">🚌</span>Public Transport</a>
+                <a href="citizen/register-complaint.html" class="cat-card"><span class="cat-icon">🌳</span>Environment</a>
+                <a href="citizen/register-complaint.html" class="cat-card"><span class="cat-icon">🏢</span>Public Facilities</a>
+                <a href="citizen/emergency.html" class="cat-card"><span class="cat-icon">🚨</span>Urgent Civic Issues</a>
+                <a href="citizen/register-complaint.html" class="cat-card"><span class="cat-icon">📍</span>Other Local Issues</a>
+            </div>
+        </section>
+
+        <!-- ============ SMART REPORTING ============ -->
+        <section class="section" aria-labelledby="smart-heading">
+            <p class="section-label">Flexible Reporting</p>
+            <h2 class="section-title" id="smart-heading">Report Problems the Way That Works for You</h2>
+            <p class="section-desc">Citizens can submit information in the way that is most comfortable for them.</p>
+            <div class="report-grid">
+                <div class="report-card"><div class="ricon">📝</div><h3>Text</h3><p>Describe the issue in your own words.</p></div>
+                <div class="report-card"><div class="ricon">🎤</div><h3>Voice</h3><p>Use voice assistance where available.</p></div>
+                <div class="report-card"><div class="ricon">📷</div><h3>Image</h3><p>Attach photographs to provide visual context.</p></div>
+                <div class="report-card"><div class="ricon">📍</div><h3>Location</h3><p>Share the relevant location when appropriate.</p></div>
+                <div class="report-card"><div class="ricon">🌐</div><h3>Multilingual</h3><p>Interact with the platform in supported languages.</p></div>
+            </div>
+        </section>
+
+        <!-- ============ TRACKING ============ -->
+        <section class="section" aria-labelledby="track-heading">
+            <p class="section-label">Track Your Complaint</p>
+            <h2 class="section-title" id="track-heading">Know What Happens Next</h2>
+            <p class="section-desc">Follow your complaint through a clear, transparent status journey.</p>
+            <div class="track-wrap">
+                <div class="track-card">
+                    <div class="track-search">
+                        <input type="text" id="trackInput" placeholder="e.g. SVS-2026-001245" aria-label="Enter complaint ID">
+                        <button class="btn btn-primary" id="trackBtn">Track</button>
+           
