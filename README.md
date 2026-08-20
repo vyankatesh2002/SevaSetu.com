@@ -1,76 +1,55 @@
-# SevaSetu
+﻿# SevaSetu AI
 
-### AI-Assisted Digital Grievance Management Platform
+**AI-Assisted Intelligent Digital Grievance Management Platform for Smart Governance**
 
-SevaSetu is an AI-assisted digital grievance management platform designed to help citizens and government departments manage public complaints more efficiently.
+SevaSetu is a GovTech and CivicTech platform designed to improve how citizens submit, track, and verify public grievances while helping authorized government departments manage complaints using AI-assisted analysis and accountable workflows.
 
-The platform allows citizens to submit complaints using text, voice, images, and location. AI assists in understanding and categorizing complaints, recommending the responsible department, identifying priority and duplicate complaints, and generating concise summaries for government officers.
+## Core Capabilities
 
-## 🚀 Problem
-
-Citizens often face difficulties in reporting public issues and tracking their complaints. Government departments may also have to manually review, categorize, forward, and follow up on large numbers of complaints.
-
-This can lead to:
-
-- Delayed complaint routing
-- Manual workload for officers
-- Duplicate complaints
-- Poor visibility into complaint status
-- Difficulty monitoring SLA and escalation
-- Limited governance-level analytics
-
-## 💡 Solution
-
-SevaSetu provides a centralized workflow for managing grievances.
-
-### Citizen Side
-- Submit complaints using text
-- Voice-based complaint submission
-- Upload images
-- Share location
-- Track complaint status
-- Verify resolution
-
-### AI Assistance
-- Complaint understanding
-- Automatic categorization
+- Multilingual complaint submission
+- Text, voice, image and location-based grievance intake
+- AI complaint understanding and categorization
 - Department recommendation
 - Priority assessment
 - Duplicate complaint detection
-- Complaint summarization
-
-### Officer Side
-- Complaint dashboard
-- Prioritized complaints
-- SLA monitoring
-- Escalation workflow
-- Complaint status management
+- AI-generated complaint summaries
+- Officer and department dashboards
+- SLA monitoring and escalation
+- Resolution evidence and citizen verification
 - Governance analytics
 
-> SevaSetu follows a Human-in-the-Loop approach. AI assists authorized government officials, while final decisions remain with human authorities.
+## Human-in-the-Loop
 
-## 🏗️ System Workflow
+AI assists with analysis and recommendations. Final administrative decisions remain with authorized government officials.
 
-```text
-Citizen
-   ↓
-Complaint Submission
-(Text / Voice / Image / Location)
-   ↓
-AI Processing
-   ↓
-Category + Department + Priority
-   ↓
-Officer Dashboard
-   ↓
-Verification & Action
-   ↓
-SLA Monitoring
-   ↓
-Escalation if Required
-   ↓
-Resolution
-   ↓
-Citizen Verification
-   ↓
-Analytics
+## Technology
+
+- HTML, CSS, JavaScript
+- FastAPI
+- PostgreSQL
+- Supabase
+- Machine Learning / NLP
+- Embeddings and semantic similarity
+- Leaflet and OpenStreetMap
+
+## Workflow
+
+Citizen -> Complaint -> AI Analysis -> Department -> Officer -> Action -> Verification -> Resolution -> Citizen Verification -> Closure
+
+## Security
+
+The architecture is designed around authentication, role-based access control, department-scoped access, auditability, secure secret management and human oversight.
+
+Never commit API keys, passwords, JWT secrets, .env files or private citizen information.
+
+## Project Focus
+
+SevaSetu is a research and engineering project focused on AI-assisted grievance management, smart governance, accountable public workflows and citizen-centered digital services.
+
+## Documentation
+
+See SECURITY.md and CONTRIBUTING.md for repository policies.
+
+---
+
+**SevaSetu AI - Intelligence for accountable public service delivery.**
